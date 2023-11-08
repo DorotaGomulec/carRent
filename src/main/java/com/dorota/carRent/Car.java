@@ -12,4 +12,6 @@ public class Car {
     private int id;
     private String mark;
     private String model;
+    private CarType cartype;
+
 }

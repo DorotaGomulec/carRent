@@ -1,6 +1,7 @@
 package com.dorota.carRent;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,10 @@ public class CarController {
         return carRepository.getAll();
     }
 
-    @GetMapping
+    @GetMapping("/cars/{id}")
+    public Car getByID(@PathVariable int id){
+        return carRepository.getById( id );
+    }
 
     @PostMapping("/cars")
     public int addCar(@RequestBody Car car) {
@@ -34,7 +38,7 @@ public class CarController {
     }
 
     @PatchMapping ("/cars/{id}")
-    public void update(@PathVariable int id, @RequestBody Car updatedCar){
+    public int update(@PathVariable int id, @RequestBody Car updatedCar){
         Car car = carRepository.getById( id );
         if(car != null){
             if(updatedCar.getMark() != null) {
@@ -43,9 +47,11 @@ public class CarController {
             if (updatedCar.getModel() !=null){
                 car.setModel( updatedCar.getModel() );
             }
+            if (updatedCar.getCartype() !=null){
+                car.setCartype( updatedCar.getCartype() );
+            }
         }
-        carRepository.update(car );
-
+        return carRepository.update(car );
     }
 
     @DeleteMapping ("/cars/{id}")
