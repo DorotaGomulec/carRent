@@ -8,7 +8,6 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cars")
@@ -50,6 +49,11 @@ public class CarController {
                 WebMvcLinkBuilder.linkTo(CarController.class).slash( id ).withRel( "delete" )
                 );
 
+    }
+
+    @GetMapping("/types/{carType}")
+    public List<CarDTO> getByCartype(@PathVariable int carType){
+        return carRepository.getByCarType( carType );
     }
 
     @PostMapping("")
